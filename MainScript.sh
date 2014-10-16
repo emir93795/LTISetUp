@@ -49,10 +49,14 @@ rm -f master.zip
 cd LTISetUp-master
 mysql < MoodleDatabaseCreation.sql
 cd /var/www/html/moodle
-#Getting instance public IP
-publicIp = curl http://169.254.169.254/latest/meta-data/public-ipv4
 
-sudo -u apache /usr/bin/php admin/cli/install.php --non-interactive --agree-license --wwwroot=http://$publicIp/moodle/ --dataroot=/var/www/moodledata --dbtype=mysqli --dbuser=moodle --dbpass=secretpassword --fullname=Moodle --shortname=Mood --adminpass=secretpassword
+#Getting instance public IP
+publicIp = $(curl http://169.254.169.254/latest/meta-data/public-ipv4)
+
+#InstallingMoodle
+cd /var/www/html/moodle
+sudo -u apache /usr/bin/php admin/cli/install.php --non-interactive --agree-license --wwwroot=http://\"$publicIp\"/moodle/ --dataroot=/var/www/moodledata --dbtype=mysqli --dbuser=moodle --dbpass=secretpassword --fullname=Moodle --shortname=Mood --adminpass=secretpassword
+exit
 
 #git clone git://git.moodle.org/moodle.git
 #cd moodle
